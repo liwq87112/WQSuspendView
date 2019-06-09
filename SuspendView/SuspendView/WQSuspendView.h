@@ -12,17 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef NS_ENUM(NSUInteger, WQSuspendViewType) {
-    WQSuspendViewTypeNone = 0,
-    WQSuspendViewTypeLeft,
-    WQSuspendViewTypeRight,
+    WQSuspendViewTypeNone = 0,  //根据左右距离的一半自动居左局右
+    WQSuspendViewTypeLeft,      //居左
+    WQSuspendViewTypeRight,     //居右
 };
 
 @interface WQSuspendView : UIView
 
-@property (nonatomic, copy) void (^ClickBlock)(void);
+@property (nonatomic, copy) void (^tapBlock)(void);
 
+/** 显示 默认为 WQSuspendViewTypeNone*/
 + (void)show;
+/** 显示 + 显示的位置*/
 + (void)showWithType:(WQSuspendViewType)type;
+/** 显示 + 位置 + 点击的事件 */
++ (void)showWithType:(WQSuspendViewType)type tapBlock:(void (^)(void))tapBlock;
+/** 移除 */
 + (void)remove;
 
 @end

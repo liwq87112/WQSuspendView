@@ -10,6 +10,11 @@
 
 @interface ViewController : UIViewController
 
+/** 第一进来为NO 跳转过的都为YES */
+@property (nonatomic, assign) BOOL type;
+
+/** 是否隐藏 */
+@property (nonatomic, assign) BOOL viewHidden;
 
 @end
 

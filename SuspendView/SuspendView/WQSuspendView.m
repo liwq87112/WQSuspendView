@@ -28,10 +28,11 @@ static WQSuspendView *_suspendView;
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame showType:(WQSuspendViewType)type{
+- (instancetype)initWithFrame:(CGRect)frame showType:(WQSuspendViewType)type tapBlock:(void (^)(void))tapBlock{
     self = [super initWithFrame:frame];
     if (self) {
         _type = type;
+        _tapBlock = tapBlock;
         [self configurationUI];
     }
     return self;
@@ -42,14 +43,20 @@ static WQSuspendView *_suspendView;
     self.backgroundColor = [UIColor redColor];
     //图片~文字等...
     
+    //点击手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    [self addGestureRecognizer:tap];
+    //滑动手势
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     [self addGestureRecognizer:pan];
 }
 
+//移除
 + (void)remove{
     [_suspendView removeFromSuperview];
 }
 
+//显示
 + (void)show{
     [self showWithType:WQSuspendViewTypeNone];
 }
@@ -57,16 +64,33 @@ static WQSuspendView *_suspendView;
 + (void)showWithType:(WQSuspendViewType)type{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _suspendView = [[WQSuspendView alloc] initWithFrame:CGRectMake(0, 200, 50, 50) showType:type];
+        _suspendView = [[WQSuspendView alloc] initWithFrame:CGRectMake(0, 200, 50, 50) showType:type tapBlock:nil];
     });
     if (!_suspendView.superview) {
         [[UIApplication sharedApplication].keyWindow addSubview:_suspendView];
-        //让floatBtn在最上层(即便以后还有keywindow add subView，也会在 floatBtn下)
         [[UIApplication sharedApplication].keyWindow bringSubviewToFront:_suspendView];
     }
 }
 
++ (void)showWithType:(WQSuspendViewType)type tapBlock:(void (^)(void))tapBlock{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _suspendView = [[WQSuspendView alloc] initWithFrame:CGRectMake(0, 200, 50, 50) showType:type tapBlock:tapBlock];
+    });
+    if (!_suspendView.superview) {
+        [[UIApplication sharedApplication].keyWindow addSubview:_suspendView];
+        [[UIApplication sharedApplication].keyWindow bringSubviewToFront:_suspendView];
+    }
+}
 
+//点击事件
+- (void)tap:(UITapGestureRecognizer *)tap{
+    if (self.tapBlock) {
+        self.tapBlock();
+    }
+}
+
+//滑动事件
 - (void)pan:(UIPanGestureRecognizer *)pan{
     //获取当前位置
     CGPoint currentPosition = [pan locationInView:self];
