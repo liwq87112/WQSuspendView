@@ -1,5 +1,5 @@
 # WQSuspendView
-####一句demo 显示、点击. 支持自定义
+一句demo 显示、点击. 支持自定义
 先上图
 ![suspend.gif](https://upload-images.jianshu.io/upload_images/2835602-a7290db1e68a38a4.gif?imageMogr2/auto-orient/strip)
 
