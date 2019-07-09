@@ -4,8 +4,8 @@
 ![suspend.gif](https://upload-images.jianshu.io/upload_images/2835602-a7290db1e68a38a4.gif?imageMogr2/auto-orient/strip)
 
 1、刚刚开始做是用来给测试人员用,不需要一直打包,然后就用一个固定的UIButton来代替.
-2、后面有一个分享有礼功能一直悬浮,离开这个页面时移除.然后才考虑写悬浮按钮
-3、因为我们产品需求当前页面能手动点击移除,所以用UIView 来写,高度自定义
+2、后面有一个分享有礼功能一直悬浮,离开这个页面时移除.然后才考虑写悬浮按钮.
+3、因为我们产品需求当前页面能手动点击移除,所以用UIView 来写,高度自定义.
 
 #####悬浮有2种方式能实现
 (1)手势 UIPanGestureRecognizer
